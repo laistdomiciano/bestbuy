@@ -1,7 +1,7 @@
 from products import Product
 from store import Store
 
-# Setup initial stock of inventory
+
 product_list = [
     Product("MacBook Air M2", price=1450, quantity=100),
     Product("Bose QuietComfort Earbuds", price=250, quantity=500),
@@ -12,24 +12,54 @@ best_buy = Store(product_list)
 
 
 def list_products():
+    """List all the products"""
     products = best_buy.get_all_products()
-    for product in products:
-        print(product.show())
+    for index, product in enumerate(products):
+        print(f"{index + 1}. {product.show()}")
+
 
 def show_total_amount():
+    """Show total amount of products"""
     print(f"Total quantity in store: {best_buy.get_total_quantity()}")
 
+
 def make_order():
+    """Input user's oders"""
     print("When you want to finish order, enter empty text.")
-    user_choice2 = int(input("Which product # do you want? "))
+    order_list = []
     products = best_buy.get_all_products()
+
+    while True:
+        list_products()  # Display the list of products
+        user_choice = input("Enter the product number you want to buy (or press Enter to finish): ")
+
+        if user_choice == "":
+            break
+
+        try:
+            product_index = int(user_choice) - 1
+            if product_index < 0 or product_index >= len(products):
+                print("Invalid product number. Please try again.")
+                continue
+
+            quantity = int(input(f"Enter the quantity for {products[product_index].name}: "))
+            if quantity <= 0:
+                print("Quantity must be greater than zero. Please try again.")
+                continue
+
+            order_list.append((products[product_index], quantity))
+        except ValueError:
+            print("Invalid input. Please enter numeric values.")
+
     try:
-        order_cost = best_buy.order([(products[0], 1), (products[1], 2)])
-        print(f"Order cost: {order_cost} dollars.")
+        total_price = best_buy.order(order_list)
+        print(f"Order cost: {total_price} dollars.")
     except Exception as e:
         print(f"Order failed: {e}")
 
+
 def quit():
+    """Exit the program"""
     print("Exiting the store menu.")
     exit()
 
@@ -54,8 +84,10 @@ def start():
         else:
             print("Invalid option, please try again.\n")
 
+
 def main():
     start()
+
 
 if __name__ == "__main__":
     main()
