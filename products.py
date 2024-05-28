@@ -25,6 +25,7 @@ class Product:
 
     def deactivate(self):
         self.active = False
+
     def show(self):
         return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
 
