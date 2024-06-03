@@ -44,6 +44,7 @@ def test_buying_larger_quantity_than_exists():
     with pytest.raises(Exception):
         product.buy(10)
 
+
 def test_buy_with_invalid_quantity():
     product = Product("Laptop", 1500, 5)
     with pytest.raises(ValueError):
